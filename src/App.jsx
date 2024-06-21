@@ -1,17 +1,18 @@
 import React from "react";
 import UserFunction from "./components/user/UserFunction";
-import UserClass from "./components/user/UserClass";
-import UserChildren from "./components/user/UserChildren";
 
-function App() {
-  const [korisnici, setKorisnici] = React.useState([
-    { ime: "Marko", godine: 25 },
-    { ime: "Ana", godine: 24 },
-    { ime: "Ivo", godine: 32 },
-  ]);
+class App extends React.Component {
+  state = {
+    korisnici: [
+      { id: 1, ime: "Marko", godine: 25 },
+      { id: 2, ime: "Ana", godine: 24 },
+      { id: 3, ime: "Ivo", godine: 32 },
+      { id: 5, ime: "Pero", godine: 38 },
+    ],
+  };
 
-  const handleButtonPress = () => {
-    //const { korisnici } = this.state;
+  handleButtonPress = () => {
+    const { korisnici } = this.state;
     /*const noviKorisnici = korisnici.map((korisnik) => {
       return { ...korisnik, godine: korisnik.godine + 1 };
     });
@@ -22,11 +23,11 @@ function App() {
       korisnik.godine = korisnik.godine + 1;
       noviKorisnici[i] = korisnik;
     }
-    setKorisnici(noviKorisnici);
-    //this.setState({ korisnici: noviKorisnici });
+    this.setState({ korisnici: noviKorisnici });
   };
 
-  const promjenaImena = (event) => {
+  promjenaImena = (event, index) => {
+    const { korisnici } = this.state;
     // 1: kreiranje novog objekta putem spread operatora [...varijabla]
     //let noviKorisnici = [...korisnici];
 
@@ -38,31 +39,27 @@ function App() {
     }
 
     // mijenjamo samo prvog korisnika u arrayu
-    noviKorisnici[0].ime = event.target.value;
-    setKorisnici(noviKorisnici);
+    noviKorisnici[index].ime = event.target.value;
+    this.setState({ korisnici: noviKorisnici });
   };
 
-  //const { korisnici } = this.state;
+  render() {
+    const { korisnici } = this.state;
+    return (
+      <div>
+        <button onClick={this.handleButtonPress}>Promjeni godine</button>
 
-  return (
-    <div>
-      <button onClick={handleButtonPress}>Promjeni godine</button>
-      <UserFunction
-        ime={korisnici[0].ime}
-        godine={korisnici[0].godine}
-        onNameChange={promjenaImena}
-      ></UserFunction>
-
-      <UserClass
-        ime={korisnici[1].ime}
-        godine={korisnici[1].godine}
-      ></UserClass>
-
-      <UserChildren ime={korisnici[2].ime} godine={korisnici[2].godine}>
-        <a href="https://google.com">hoby</a>
-      </UserChildren>
-    </div>
-  );
+        {korisnici.map((korisnik, index) => (
+          <UserFunction
+            key={korisnik.id}
+            ime={korisnik.ime}
+            godine={korisnik.godine}
+            onNameChange={(event) => this.promjenaImena(event, index)}
+          ></UserFunction>
+        ))}
+      </div>
+    );
+  }
 }
 
 export default App;
