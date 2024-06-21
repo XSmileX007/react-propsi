@@ -1,7 +1,10 @@
-export default function UserFunction({ ime, godine }) {
+export default function UserFunction({ ime, godine, onNameChange }) {
   return (
-    <p>
-      Moje ime je {ime} a imam godina {godine}
-    </p>
+    <div>
+      <p>
+        Moje ime je {ime} a imam godina {godine}
+      </p>
+      <input type="text" value={ime} onChange={onNameChange} />
+    </div>
   );
 }
