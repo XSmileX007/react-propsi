@@ -1,5 +1,6 @@
 import React from "react";
 import UserFunction from "./components/user/UserFunction";
+import NoviKorisnik from "./components/user/NoviKorisnik";
 
 class App extends React.Component {
   state = {
@@ -43,6 +44,16 @@ class App extends React.Component {
     this.setState({ korisnici: noviKorisnici });
   };
 
+  dodajNovogKorisnika = ({ novoIme, noveGodine }) => {
+    const noviKorisnik = {
+      id: new Date().getMilliseconds(),
+      ime: novoIme,
+      godine: noveGodine,
+    };
+
+    this.setState({ korisnici: [...this.state.korisnici, noviKorisnik] });
+  };
+
   render() {
     const { korisnici } = this.state;
     return (
@@ -57,6 +68,8 @@ class App extends React.Component {
             onNameChange={(event) => this.promjenaImena(event, index)}
           ></UserFunction>
         ))}
+
+        <NoviKorisnik onUserSubmit={this.dodajNovogKorisnika}></NoviKorisnik>
       </div>
     );
   }
